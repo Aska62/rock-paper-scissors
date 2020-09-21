@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        // Decide computer selection
+        function computerPlay() {
+            n = Math.floor(Math.random()*3);
+            let compSelec = "";
+            switch(n) {
+                case 0:
+                    compSelec = "rock";
+                    break;
+                case 1:
+                    compSelec = "paper";
+                    break;
+                case 2:
+                    compSelec = "scissors";
+                    break;
+            }
+            return compSelec;
+        }
+
+        // Take player selection. Give error if necessary
+        function humanPlay() {
+            let userSelec = "";
+            while (userSelec !== "rock" && userSelec !== "paper" && userSelec !== "scissors") {
+                let userInput = prompt("Choose ROCK, PAPER, SCISSORS!");
+                userSelec = userInput.toLowerCase();
+            };
+            return userSelec;
+        };
+
+        // Counter
+        let win = 0;
+        let lose = 0;
+        let message = "";
+        // Single round of Rock Paper Scissors
+        function play(playerSelection, computerSelection) {
+            if (playerSelection === computerSelection) {
+                message = `Even! Both selected ${playerSelection}.`;
+            } else if (computerSelection === "rock") {
+                if (playerSelection === "paper") {
+                    win++;
+                    message = `You won! ${playerSelection} beats ${computerSelection}.\nYou: ${win} points, Computer: ${lose} points.`
+                } else {
+                    lose++;
+                    message = `You Lose! ${computerSelection} beats ${playerSelection}.\nYou: ${win} points, Computer: ${lose} points.`;
+                }
+            } else if (computerSelection === "paper") {
+                if (playerSelection === "rock") {
+                    lose++;
+                    message = `You Lose! ${computerSelection} beats ${playerSelection}.\nYou: ${win} points, Computer: ${lose} points.`;
+                } else {
+                    win++;
+                    message = `You won! ${playerSelection} beats ${computerSelection}.\nYou: ${win} points, Computer: ${lose} points.`;
+                }
+            } else if (computerSelection === "scissors") {
+                if (playerSelection === "rock") {
+                    win++;
+                    message = `You won! ${playerSelection} beats ${computerSelection}.\nYou: ${win} points, Computer: ${lose} points.`;
+                } else {
+                    lose++;
+                    message = `You Lose! ${computerSelection} beats ${playerSelection}.\nYou: ${win} points, Computer: ${lose} points.`;
+                }
+            };
+            return message;
+        };
+
+        // play game for 5 round
+        function game() {
+            win = 0;
+            lose = 0;
+            while (win + lose < 5) {
+                play(humanPlay(), computerPlay());
+                console.log(message);
+            }
+            if (win > lose) {
+                console.log("You won the match!");
+            } else {
+                console.log("You lose...");
+            }
+        }
+
+    </script>
+</body>
+</html>
