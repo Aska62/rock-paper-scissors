@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors ver.2</title>
+</head>
+<body>
+    <div class="choiceBtns">
+        <button class="rock">Rock</button>
+        <button class="paper">Paper</button>
+        <button class="scissors">Scissors</button>
+    </div>
+    <div class="result"></div>
+
+    <script>
+        // final msg to output
+        let message ="";
+        // Counter
+        let win = 0;
+        let lose = 0;
+
+        // Dicide computer selection
+        function computerPlay() {
+            n = Math.floor(Math.random()*3);
+            let compSelec = "";
+            switch(n) {
+                case 0:
+                    compSelec = "rock";
+                    break;
+                case 1:
+                    compSelec = "paper";
+                    break;
+                case 2:
+                    compSelec = "scissors";
+                    break;
+            }
+            return compSelec;
+        }
+
+        // Single round of Rock Paper Scissors. Compare selections and give message
+        function playRound(player, computer) {
+            if (player === computer) {
+                message = `Even! Both selected ${player}.`;
+            } else if (computer === "rock") {
+                if (player === "paper") {
+                    win++;
+                    message = `You won! ${player} beats ${computer}.`;
+                } else {
+                    lose++;
+                    message = `You Lose! ${computer} beats ${player}.`;
+                }
+            } else if (computer === "paper") {
+                if (player === "rock") {
+                    lose++;
+                    message = `You Lose! ${computer} beats ${player}.`;
+                } else {
+                    win++;
+                    message = `You won! ${player} beats ${computer}.`;
+                }
+            } else if (computer === "scissors") {
+                if (player === "rock") {
+                    win++;
+                    message = `You won! ${player} beats ${computer}.`;
+                } else {
+                    lose++;
+                    message = `You Lose! ${computer} beats ${player}.`;
+                }
+            };
+            return message;
+        };
+
+        // Select all buttons and store as an array.
+        const selection = Array.from(document.querySelectorAll("button"));
+
+        // Click and play game.}
+        selection.forEach(select => {
+            select.addEventListener('click', () => {
+                const msgDiv = document.querySelector(".result");
+                // Keep play rounds until someone reaches 5 points
+                if (win < 5 && lose < 5) {
+                    const playerSelection = select.className;
+                    const computerSelection = computerPlay();
+                    playRound(playerSelection, computerSelection);
+                    // Display result in a plane style
+                    msgDiv.removeAttribute("style");
+                    msgDiv.textContent = message;
+                } else if (win === 5){
+                // Announce winner once someone reaches 5 points and clear counters
+                    msgDiv.textContent ="You won!";
+                    msgDiv.setAttribute("style", "color: red; font-size: 25px;");
+                    win = 0;
+                    lose = 0;
+                } else {
+                    msgDiv.textContent = "You lose!";
+                    msgDiv.setAttribute("style", "color: blue; font-size: 25px;")
+                    win = 0;
+                    lose = 0;
+                };
+
+            });
+        });
+
+    </script>
+</body>
+</html>
